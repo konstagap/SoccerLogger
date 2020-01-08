@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ScrollableAnchor from "react-scrollable-anchor";
-import axios from "axios";
 import { configureAnchors } from "react-scrollable-anchor";
+import axios from "axios";
+
 import NavBar from "./components/NavBar";
 import Leagues from "./components/Leagues";
 import Teams from "./components/Teams";
-
 import CurrentTeam from "./components/CurrentTeam";
 
 import "./App.css";
@@ -74,9 +74,7 @@ function App() {
     <div className="container">
       <NavBar />
       <Leagues leagues={leagues} getTeams={getTeams} />
-      <ScrollableAnchor id={"section"}>
-        <span></span>
-      </ScrollableAnchor>
+
       {selectedLeague && (
         <Teams
           events={events}

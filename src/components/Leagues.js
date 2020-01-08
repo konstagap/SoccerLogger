@@ -15,7 +15,7 @@ function Leagues({ leagues, getTeams }) {
             <ul>
               {leagues.map(league => (
                 <li key={league.idLeague}>
-                  <a href="#section" onClick={() => getTeams(league)}>
+                  <a onClick={() => getTeams(league)} href="#section">
                     {league.strLeague}
                   </a>
                 </li>
