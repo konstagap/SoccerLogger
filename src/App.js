@@ -30,7 +30,8 @@ function App() {
       "https://www.thesportsdb.com/api/v1/json/1/all_leagues.php"
     );
     const leagues = data.leagues.filter(league => league.strSport === "Soccer");
-    console.log(leagues);
+    // console.log(leagues);
+    leagues.length = 40;
     setLeagues(leagues);
   };
 
