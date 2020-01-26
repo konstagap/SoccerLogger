@@ -21,7 +21,6 @@ function Leagues({ leagues, getTeams }) {
                 </li>
               ))}
             </ul>
-            <div></div>
           </div>
         </div>
       </div>

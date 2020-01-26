@@ -25,7 +25,12 @@ body {
 a {
   color: rgb(44, 41, 41) !important;
 }
-
+.leagues {
+  list-style-type: none;
+  columns: 3;
+  -webkit-columns: 3;
+  -moz-columns: 3;
+}
 ul {
   columns: 2;
   -webkit-columns: 2;
@@ -34,4 +39,7 @@ ul {
 .img-thumbnail {
   width: 70%;
   height: 70%;
+}
+.mainText {
+  font-family: "Bangers", cursive;
 }

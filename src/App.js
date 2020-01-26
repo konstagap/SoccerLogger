@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ScrollableAnchor from "react-scrollable-anchor";
 import { configureAnchors } from "react-scrollable-anchor";
 import axios from "axios";
 
@@ -11,14 +10,14 @@ import CurrentTeam from "./components/CurrentTeam";
 import "./App.css";
 
 function App() {
-  const [teams, setTeams] = useState([]);
+  const [teams, setTeams] = useState();
   const [selectedTeam, setSelectedTeam] = useState();
 
   const [leagues, setLeagues] = useState([]);
   const [selectedLeague, setSelectedLeague] = useState();
 
   const [events, setEvents] = useState([]);
-  const [teamEvents, setTeamEvents] = useState([]);
+  const [teamEvents, setTeamEvents] = useState();
 
   configureAnchors({ offset: 0, scrollDuration: 700 });
 
@@ -36,15 +35,16 @@ function App() {
   };
 
   const getTeams = async ({ strLeague, idLeague }) => {
+    setSelectedLeague(strLeague);
     const { data } = await axios.get(
       `https://www.thesportsdb.com/api/v1/json/1/search_all_teams.php?l=${strLeague.replace(
         /" "/g,
         "%20"
       )}`
     );
-    setTeams(data.teams);
 
     if (data.teams) {
+      setTeams(data.teams);
       const { data: dbEvents } = await axios.get(
         `https://www.thesportsdb.com/api/v1/json/1/eventsnextleague.php?id=${idLeague}`
       );
@@ -54,10 +54,12 @@ function App() {
         let eventsArr = dbEvents.events;
         console.log(eventsArr);
         setEvents(eventsArr);
+      } else {
+        setEvents([]);
       }
+    } else {
+      setTeams([]);
     }
-
-    setSelectedLeague(strLeague);
   };
 
   const showTeamStats = async clikedTeam => {
@@ -68,14 +70,16 @@ function App() {
       `https://www.thesportsdb.com/api/v1/json/1/eventsnext.php?id=${selectedTeam.idTeam}`
     );
     if (dbteamEvents.events) setTeamEvents(dbteamEvents.events);
+    else {
+      setTeamEvents([]);
+    }
   };
 
   return (
     <div className="container">
       <NavBar />
       <Leagues leagues={leagues} getTeams={getTeams} />
-
-      {selectedLeague && (
+      {teams && (
         <Teams
           events={events}
           selectedLeague={selectedLeague}
@@ -83,10 +87,7 @@ function App() {
           showTeamStats={showTeamStats}
         />
       )}
-      <ScrollableAnchor id={"section1"}>
-        <span></span>
-      </ScrollableAnchor>
-      {selectedTeam && (
+      {teamEvents && (
         <CurrentTeam
           teamEvents={teamEvents}
           currentTeam={selectedTeam}
